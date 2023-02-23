@@ -1,5 +1,7 @@
 import demistomock as demisto  # noqa: F401
 from CommonServerPython import *  # noqa: F401
+
+
 def get_dict(d, keys):
     for key in keys:
         try:
@@ -69,28 +71,29 @@ def format_data_to_table(items):
 
 def main():
 
-  incident = demisto.incident()
+    incident = demisto.incident()
 
-  incident_context = demisto.executeCommand("getContext", {'id': incident.get("id")})
+    incident_context = demisto.executeCommand("getContext", {'id': incident.get("id")})
 
-  objects = ["Base64", "digresults", "EntropyResult", "ResolveShortenedURL", "Endpoint"]
+    objects = ["Base64", "digresults", "EntropyResult", "ResolveShortenedURL", "Endpoint"]
 
-  # Get data from context
-  data = get_data_from_context(incident_context, objects)
+    # Get data from context
+    data = get_data_from_context(incident_context, objects)
 
-  # Convert the data to a key-value table
-  items = convert_to_kv_table(data)
+    # Convert the data to a key-value table
+    items = convert_to_kv_table(data)
 
-  fixed_items = convert_to_kv_list(items)
+    fixed_items = convert_to_kv_list(items)
 
-  # Format the data into a dynamic width HTML table
-  table = format_data_to_table(fixed_items)
+    # Format the data into a dynamic width HTML table
+    table = format_data_to_table(fixed_items)
 
-  return_results({
-      'ContentsFormat': EntryFormat.HTML,
-      'Type': EntryType.NOTE,
-      'Contents': table,
-  })
+    return_results({
+        'ContentsFormat': EntryFormat.HTML,
+        'Type': EntryType.NOTE,
+        'Contents': table,
+    })
+
 
 if __name__ in ("builtins", "__builtin__", "__main__"):
     main()
